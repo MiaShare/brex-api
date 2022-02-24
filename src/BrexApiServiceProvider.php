@@ -11,37 +11,11 @@ class BrexApiServiceProvider extends ServiceProvider {
      */
     public function boot(): void
     {
-        /*
-         * Optional methods to load your package assets
-         */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-pokemontcg');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-pokemontcg');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $source = realpath(__DIR__ . '/config/brex.php');
 
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/brex.php' => config_path('brex.php'),
-            ], 'config');
+        $this->publishes([$source => config_path('brex.php')]);
 
-            // Publishing the views.
-            /*$this->publishes([
-                __DIR__.'/../resources/views' => resource_path('views/vendor/laravel-pokemontcg'),
-            ], 'views');*/
-
-            // Publishing assets.
-            /*$this->publishes([
-                __DIR__.'/../resources/assets' => public_path('vendor/laravel-pokemontcg'),
-            ], 'assets');*/
-
-            // Publishing the translation files.
-            /*$this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/vendor/laravel-pokemontcg'),
-            ], 'lang');*/
-
-            // Registering package commands.
-            // $this->commands([]);
-        }
+        $this->mergeConfigFrom($source, 'brex');
     }
 
     /**
@@ -49,12 +23,20 @@ class BrexApiServiceProvider extends ServiceProvider {
      */
     public function register(): void
     {
-        // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/brex.php', 'brex');
-
-        // Register the main class to use with the facade
-        $this->app->singleton('brex-api', function () {
+        $this->app->bind(BrexApi::class, function () {
             return new BrexApi(config('brex.api_token'));
         });
+
+        $this->app->alias(BrexApi::class, 'brex-api');
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [BrexApi::class];
     }
 }
