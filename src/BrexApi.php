@@ -98,5 +98,10 @@ class BrexApi
     {
         return $this->timeout;
     }
+
+    public function getCompany()
+    {
+        return $this->get($this->api_base_url . '/v2/company');
+    }
 	
 }
