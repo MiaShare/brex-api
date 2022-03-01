@@ -99,10 +99,19 @@ class BrexApi
         return $this->timeout;
     }
 
+
+    /**
+     * Team
+     */
+
+    /**
+     * This endpoint returns the company associated with the OAuth2 access token.
+     */
     public function getCompany()
     {
         return $this->get($this->api_base_url . '/v2/company');
     }
+    
 
     /**
      * Payments
@@ -114,6 +123,19 @@ class BrexApi
     public function listVendors(string $cursor = null, int $limit = null, string $name = null)
     {
         return $this->get($this->api_base_url . '/v1/vendors');
+    }
+
+
+    /**
+     * Transactions
+     */
+
+    /**
+     * This endpoint lists all the existing cash accounts with their status.
+     */
+    public function listCashAccounts()
+    {
+        return $this->get($this->api_base_url . '/v2/accounts/cash');
     }
 	
 }
