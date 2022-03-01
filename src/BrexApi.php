@@ -125,6 +125,14 @@ class BrexApi
         return $this->get($this->api_base_url . '/v1/vendors');
     }
 
+    /**
+     * This endpoint creates a new transfer.
+     */
+    public function createTransfer(array $payload = [])
+    {
+        return $this->post($this->api_base_url . '/v1/transfers', $payload);
+    }
+
 
     /**
      * Transactions
