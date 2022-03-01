@@ -103,5 +103,17 @@ class BrexApi
     {
         return $this->get($this->api_base_url . '/v2/company');
     }
+
+    /**
+     * Payments
+     */
+
+    /**
+     * This endpoint lists all existing vendors for an account. Takes an optional parameter to match by vendor name.
+     */
+    public function listVendors(string $cursor = null, int $limit = null, string $name = null)
+    {
+        return $this->get($this->api_base_url . '/v1/vendors');
+    }
 	
 }
