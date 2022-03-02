@@ -130,7 +130,7 @@ class BrexApi
      */
     public function createTransfer(array $payload = [])
     {
-        return $this->post($this->api_base_url . '/v1/transfers', $payload);
+        return $this->post($this->api_base_url . '/v1/transfers', ['json' => $payload]);
     }
 
 
