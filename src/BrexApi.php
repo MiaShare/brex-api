@@ -7,7 +7,7 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 
-class BrexApi 
+class BrexApi
 {
     use MakesHttpRequests;
 
@@ -16,6 +16,7 @@ class BrexApi
 	 */
 	private $api_token;
 	private $api_base_url;
+    private $idempotent_key;
 
     /**
      * The Guzzle HTTP Client instance.
@@ -38,10 +39,11 @@ class BrexApi
      * @param  \GuzzleHttp\Client|null  $guzzle
      * @return void
      */
-	public function __construct($api_token = null, HttpClient $guzzle = null) 
+	public function __construct($api_token = null, HttpClient $guzzle = null, string $idempotent_key = null)
     {
         $this->api_token = $api_token;
 		$this->api_base_url = config('brex.url');
+        $this->idempotent_key = $idempotent_key;
 
         if (! is_null($api_token)) {
             $this->setApiKey($api_token, $guzzle);
@@ -63,14 +65,20 @@ class BrexApi
     {
         $this->api_token = $api_token;
 
+        $headers = [
+            'Authorization' => 'Bearer '. $this->api_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ];
+
+        if($this->idempotent_key) {
+            $headers['Idempotency-Key'] = $this->idempotent_key;
+        }
+
         $this->guzzle = $guzzle ?: new HttpClient([
             'base_uri' => config('brex.url'),
             'http_errors' => false,
-            'headers' => [
-                'Authorization' => 'Bearer '. $this->api_token,
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
+            'headers' => $headers,
         ]);
 
         return $this;
@@ -88,7 +96,7 @@ class BrexApi
 
         return $this;
     }
-    
+
     /**
      * Get the timeout.
      *
@@ -111,7 +119,7 @@ class BrexApi
     {
         return $this->get($this->api_base_url . '/v2/company');
     }
-    
+
 
     /**
      * Payments
@@ -122,6 +130,7 @@ class BrexApi
      */
     public function listVendors(string $cursor = null, int $limit = null, string $name = null)
     {
+        dd($this);
         return $this->get($this->api_base_url . '/v1/vendors');
     }
 
@@ -145,5 +154,5 @@ class BrexApi
     {
         return $this->get($this->api_base_url . '/v2/accounts/cash');
     }
-	
+
 }
