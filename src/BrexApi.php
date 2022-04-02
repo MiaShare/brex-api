@@ -130,7 +130,6 @@ class BrexApi
      */
     public function listVendors(string $cursor = null, int $limit = null, string $name = null)
     {
-        dd($this);
         return $this->get($this->api_base_url . '/v1/vendors');
     }
 
