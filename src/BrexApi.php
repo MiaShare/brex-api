@@ -130,7 +130,7 @@ class BrexApi
      */
     public function listVendors(string $cursor = null, int $limit = null, string $name = null)
     {
-        return $this->get($this->api_base_url . '/v1/vendors');
+        return $this->get($this->api_base_url . '/v1/vendors?cursor=' . $cursor . '&limit=' . $limit . '&name=' . $name);
     }
 
     /**
@@ -146,7 +146,7 @@ class BrexApi
      */
     public function listTransfers(string $cursor = null, int $limit = null)
     {
-        return $this->get($this->api_base_url . '/v1/transfers');
+        return $this->get($this->api_base_url . '/v1/transfers?cursor=' . $cursor . '&limit=' . $limit);
     }
 
     /**
