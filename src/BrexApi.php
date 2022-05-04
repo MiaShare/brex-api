@@ -134,6 +134,22 @@ class BrexApi
     }
 
     /**
+     * This endpoint gets a vendor by ID.
+     */
+    public function getVendor(string $vendor = null)
+    {
+        return $this->get($this->api_base_url . '/v1/vendors/' . $vendor);
+    }
+
+    /**
+     * This endpoint lists existing transfers for an account.
+     */
+    public function listTransfers(string $cursor = null, int $limit = null)
+    {
+        return $this->get($this->api_base_url . '/v1/transfers');
+    }
+
+    /**
      * This endpoint creates a new transfer.
      */
     public function createTransfer(array $payload = [])
