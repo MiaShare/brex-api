@@ -134,11 +134,35 @@ class BrexApi
     }
 
     /**
+     * This endpoint creates a new vendor.
+     */
+    public function createVendor(array $payload = [])
+    {
+        return $this->post($this->api_base_url . '/v1/vendors', ['json' => $payload]);
+    }
+
+    /**
      * This endpoint gets a vendor by ID.
      */
     public function getVendor(string $vendor = null)
     {
         return $this->get($this->api_base_url . '/v1/vendors/' . $vendor);
+    }
+
+    /**
+     * Updates an existing vendor by ID.
+     */
+    public function updateVendor(string $vendor = null, array $payload = [])
+    {
+        return $this->put($this->api_base_url . '/v1/vendors/' . $vendor, ['json' => $payload]);
+    }
+
+    /**
+     * This endpoint deletes a vendor by ID.
+     */
+    public function deleteVendor(string $vendor = null)
+    {
+        return $this->delete($this->api_base_url . '/v1/vendors/' . $vendor);
     }
 
     /**
